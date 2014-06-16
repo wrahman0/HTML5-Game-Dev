@@ -54,55 +54,9 @@ function canvasApp () {
 			}else if (facing == "E"){
 				drawPlayer (animationVars,CHAR_SPEED,0);
 			}
-
 		}
 	}
 
-	// function updateOrientation(faceTo){
-		
-	// 	if (faceTo == facing) {
-	// 		console.log ("RETURNING");
-	// 		return;
-	// 	}
-		
-	// 	ctx.save();
-	// 	ctx.setTransform(1,0,0,1,0,0);
-	// 	ctx.translate(curr_x+42, curr_y+42);
-
-	// 	var curr_orientation, dest_orientation;
-
-	// 	if (facing == "N"){
-	// 		curr_orientation = 90;
-	// 	}else if (facing == "S"){
-	// 		curr_orientation = 270;
-	// 	}else if (facing == "W"){
-	// 		curr_orientation = 180;
-	// 	}else if (facing == "E"){
-	// 		curr_orientation = 0;
-	// 	}
-
-	// 	if (faceTo == "N"){
-	// 		dest_orientation = 90;
-	// 	}else if (faceTo == "S"){
-	// 		dest_orientation = 270;
-	// 	}else if (faceTo == "W"){
-	// 		dest_orientation = 180;
-	// 	}else if (faceTo == "E"){
-	// 		dest_orientation = 0;
-	// 	}
-
-
-	// 	var rotation = Math.abs(curr_orientation - dest_orientation);
-	// 	var angleInRadians = rotation * Math.PI / 180;
-	// 	ctx.rotate (angleInRadians);
-
-	// 	var counter = animationVars.counter; 
-	// 	animationVars.counter++;
-	// 	ctx.drawImage (playersheet,((counter%7)+1)*84, 0, 84, 84, -42, -42, 84, 84);
-		
-	// 	ctx.restore();
-
-	// }
 
 	function drawPlayer (animationVars,displace_x,displace_y){
 
@@ -115,18 +69,12 @@ function canvasApp () {
 		
 		var rotation = 0;
 
-		if (facing == "N" && curr_orientation != 90){
-			rotation = Math.abs(curr_orientation-90);
-			curr_orientation = 90;
-		}else if (facing == "S" && curr_orientation != 270){
-			rotation = Math.abs(curr_orientation-270);
-			curr_orientation = 270;
-		}else if (facing == "W" && curr_orientation != 180){
-			rotation = Math.abs(curr_orientation-180);
-			curr_orientation = 180;
-		}else if (facing == "E" && curr_orientation != 0){
-			rotation = Math.abs(curr_orientation-270);
-			curr_orientation = 0;
+		if (facing == "S"){
+			rotation = (180);
+		}else if (facing == "W"){
+			rotation = (-90);
+		}else if (facing == "E"){
+			rotation = (90);	
 		}
 
 		var angleInRadians = rotation * Math.PI / 180;
@@ -143,19 +91,15 @@ function canvasApp () {
 		var keyPressed = String.fromCharCode(event.keyCode);
 		
 		if (keyPressed == "W"){ // 'w'
-			// updateOrientation("N");
 			facing = "N";
 			isMoving = true;
 		}else if (keyPressed == "S"){ // 's'
-			// updateOrientation("S");
 			facing = "S";
 			isMoving = true;
 		}else if (keyPressed == "A"){ // 'a'
-			// updateOrientation("W");
 			facing = "W";
 			isMoving = true;
 		}else if (keyPressed == "D"){ // 'd'
-			// updateOrientation("E");
 			facing = "E";
 			isMoving = true;
 		}

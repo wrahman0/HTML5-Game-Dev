@@ -43,16 +43,16 @@ function canvasApp () {
 	function renderBullet(i){ //Given a bullet index, renders it and updates position
 
 		if (projectile[i]["dir"] == "N"){
-			ctx.drawImage (playersheet,336,168,projectile[i]["x"],projectile[i]["y"]-projectile[i]["speed"]);
+			ctx.drawImage (playersheet,336,168,84,84,projectile[i]["x"],projectile[i]["y"]-projectile[i]["speed"],84,84);
 			projectile[i]["y"]-=projectile[i]["speed"];
 		}else if (projectile[i]["dir"] == "S") {
-			ctx.drawImage (playersheet,336,168,projectile[i]["x"],projectile[i]["y"]+projectile[i]["speed"]);
+			ctx.drawImage (playersheet,336,168,84,84,projectile[i]["x"],projectile[i]["y"]+projectile[i]["speed"],84,84);
 			projectile[i]["y"]+=projectile[i]["speed"];
 		}else if (projectile[i]["dir"] == "W") {
-			ctx.drawImage (playersheet,336,168,projectile[i]["x"]-projectile[i]["speed"],projectile[i]["y"]);
+			ctx.drawImage (playersheet,336,168,84,84,projectile[i]["x"]-projectile[i]["speed"],projectile[i]["y"],84,84);
 			projectile[i]["y"]-=projectile[i]["speed"];
 		}else if (projectile[i]["dir"] == "E") {
-			ctx.drawImage (playersheet,336,168,projectile[i]["x"]+projectile[i]["speed"],projectile[i]["y"]);
+			ctx.drawImage (playersheet,336,168,84,84,projectile[i]["x"]+projectile[i]["speed"],projectile[i]["y"],84,84);
 			projectile[i]["y"]+=projectile[i]["speed"];
 		}	
 	}
@@ -62,7 +62,7 @@ function canvasApp () {
 		if (projectile.length > 0){
 			for (var i = 0; i < projectile.length; i++){
 				//draw image
-				renderBullet (i);
+				renderBullet(i);
 				//update bullet params
 				projectile[i]["life"]--;
 				//delete projectiles

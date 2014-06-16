@@ -8,6 +8,7 @@ function eventWindowLoaded() {
 function canvasApp () {
 
 	//Global Variable
+	var projectile = new Array();
 	var isMoving = false;
 	var facing = "N";
 	var curr_orientation = 90;
@@ -37,14 +38,48 @@ function canvasApp () {
 	playersheet.addEventListener ("load", playersheetLoaded, false);
 	
 	setInterval (update, TIME_PER_FRAME);
+	setInterval (projectileHandler, TIME_PER_FRAME);
+
+	function renderBullet(i){ //Given a bullet index, renders it and updates position
+
+		if (projectile[i]["dir"] == "N"){
+			ctx.drawImage (playersheet,336,168,projectile[i]["x"],projectile[i]["y"]-projectile[i]["speed"]);
+			projectile[i]["y"]-=projectile[i]["speed"];
+		}else if (projectile[i]["dir"] == "S") {
+			ctx.drawImage (playersheet,336,168,projectile[i]["x"],projectile[i]["y"]+projectile[i]["speed"]);
+			projectile[i]["y"]+=projectile[i]["speed"];
+		}else if (projectile[i]["dir"] == "W") {
+			ctx.drawImage (playersheet,336,168,projectile[i]["x"]-projectile[i]["speed"],projectile[i]["y"]);
+			projectile[i]["y"]-=projectile[i]["speed"];
+		}else if (projectile[i]["dir"] == "E") {
+			ctx.drawImage (playersheet,336,168,projectile[i]["x"]+projectile[i]["speed"],projectile[i]["y"]);
+			projectile[i]["y"]+=projectile[i]["speed"];
+		}	
+	}
+
+	function projectileHandler(){
+		
+		if (projectile.length > 0){
+			for (var i = 0; i < projectile.length; i++){
+				//draw image
+				renderBullet (i);
+				//update bullet params
+				projectile[i]["life"]--;
+				//delete projectiles
+				if (projectile[i]["life"] == 0){
+					console.log("Removing...");
+					projectile.splice(i, 1);
+					console.log("Removed. Projectile size is: " + projectile.length);
+				}
+			}
+		}
+	}
 
 	function update(){
 
 		if (isMoving){
-
 			//redraw the canvas
 			generateMap();
-
 			if (facing == "N"){
 				drawPlayer (animationVars,0,-CHAR_SPEED);
 			}else if (facing == "S"){
@@ -68,7 +103,6 @@ function canvasApp () {
 		ctx.translate(curr_x+42, curr_y+42);
 		
 		var rotation = 0;
-
 		if (facing == "S"){
 			rotation = (180);
 		}else if (facing == "W"){
@@ -80,7 +114,9 @@ function canvasApp () {
 		var angleInRadians = rotation * Math.PI / 180;
 		ctx.rotate (angleInRadians);
 		ctx.drawImage (playersheet,((animationVars.counter%7)+1)*84, 0, 84, 84, -42, -42, 84, 84);
-		animationVars.counter++;
+		if (displace_x != 0 && displace_y != 0){
+			animationVars.counter++;
+		}
 		ctx.restore();
 		
 
@@ -102,8 +138,17 @@ function canvasApp () {
 		}else if (keyPressed == "D"){ // 'd'
 			facing = "E";
 			isMoving = true;
-		}
+		}else if (keyPressed == " "){ // 'space bar'
 
+			projectile.push(
+			{
+				"speed":STD_BULLET_SPEED,
+				"dir": facing,
+				"life": STD_BULLET_LIFE,
+				"x": curr_x,
+				"y": curr_y
+		 	});
+		}
 	}
 
 	function keyUpHandler(event){

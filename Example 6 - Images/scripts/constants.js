@@ -12,4 +12,8 @@ DEFAULT_X = 500;
 DEFAULT_Y = 500;
 
 //Player Movement speed px/frame
-CHAR_SPEED = 4
+CHAR_SPEED = 4;
+
+//Projectile properties
+STD_BULLET_SPEED = 5;
+STD_BULLET_LIFE = 50;

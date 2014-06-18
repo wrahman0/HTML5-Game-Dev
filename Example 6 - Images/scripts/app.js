@@ -91,27 +91,44 @@ function update(dt){
 
 }
 
+function handleInput (dt){
+	
+	if (input.isDown('DOWN') || input.isDown('s')){
+		player.pos[1] += playerSpeed * dt;
+	}
+
+	if (input.isDown('UP') || input.isDown('w')){
+		player.pos[1] -= playerSpeed * dt;
+	}
+
+	if(input.isDown('LEFT') || input.isDown('a')) {
+        player.pos[0] -= playerSpeed * dt;
+    }
+
+    if(input.isDown('RIGHT') || input.isDown('d')) {
+        player.pos[0] += playerSpeed * dt;
+    }
+
+    //Bullet
+    if (input.isDown('SPACE') && !isGameOver && Date.now() - lastFire > 100){
+    	
+    	var x = player.pos[0] + player.sprite.size[0] / 2;
+    	var x = player.pos[1] + player.sprite.size[1] / 2;
+    	
+    	bullets.push ({
+    		pos: [x,y],
+    		sprite: new Sprite (resources.get('assets/tilesheet.png'), [0,168], [84,84])	
+    	}); //pos, size
+
+    	lastFire = Date.now();
+
+    }
+
+}
 
 
+function updateEntities (dt){
 
+	//Update player sprite animation
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}

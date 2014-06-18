@@ -130,5 +130,12 @@ function handleInput (dt){
 function updateEntities (dt){
 
 	//Update player sprite animation
+	player.sprite.update(dt);
+
+	//Update bullets
+	for (var i = 0; i < bullets.length; i++){
+		var bullet = bullets[i];
+	}
 
 }
+

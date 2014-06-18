@@ -32,6 +32,13 @@ function init (){
 	patternCtx.drawImage(resources.get('assets/futureTiles.png'), 0, 32, 64, 64, 0, 0, 64, 64);
 
 	terrainPattern = ctx.createPattern (patternCanvas,"repeat");
+	document.getElementById('play-again').addEventListener('click', function () {
+		reset();
+	});
+
+	reset();
+	lastTime = Date.now();
+	main();
 
 }
 
@@ -39,3 +46,72 @@ resources.load([
     'assets/tilesheet.png',
     'assets/futureTiles.png'
 ]);
+
+//Game state
+var player = {
+	pos: [0,0],
+	sprite: new Sprite(resources.get('assets/tilesheet.png'), [0,0], [84, 84], 16, [1, 2, 3, 4, 5, 6, 7])
+};
+
+//Entities
+var bullets = [];
+var enemies = [];
+var explosions = [];
+
+var lastFire = Date.now();
+var gameTime = 0;
+var isGameOver;
+var terrainPattern;
+
+var score = 0;
+var scoreEl = document.getElementById('score');
+
+//Speeds
+var playerSpeed = 200;
+var bulletSpeed = 500;
+var enemySpeed = 100;
+
+//Update game objects 
+function update(dt){
+	gameTime += dt;
+	handleInput(dt);
+	updateEntities(dt);
+
+	//Calculate difficulty
+	if (Math.random() < 1 - Math.pow(.993, gameTime)){
+		enemies.push({
+			pos: [canvas.width, Math.random() * canvas.height - 84],
+			sprite: new Sprite (resources.get('assets/tilesheet.png'), [84,84], 6, [1, 2, 3, 4, 5, 6, 7])
+		});
+	}
+
+	checkCollisions();
+
+	scoreEl.innerHTML = score;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

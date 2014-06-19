@@ -129,13 +129,42 @@ function handleInput (dt){
 
 function updateEntities (dt){
 
-	//Update player sprite animation
+	// Update player sprite animation
 	player.sprite.update(dt);
 
-	//Update bullets
+	// Update bullets
 	for (var i = 0; i < bullets.length; i++){
+		
 		var bullet = bullets[i];
+
+		switch(bullet.dir){
+			case 'up': bullet.pos[1] -= bulletSpeed * dt; break;
+			case 'down': bullet.pos[1] += bulletSpeed * dt; break;
+			default: 
+			bullet.pos[0] += bulletSpeed * dt;	
+		}
+
+		//Remove offscreen bullets
+		if (bullet.pos[1] < 0 || bullet.pos[1] > canvas.height || bullet.pos[0] < 0 || bullet.pos[0] > canvas.width){
+			bullets.splice(i, 1);
+			i--;
+		}
 	}
 
+	// Update enemies
+	for (var i = 0; i < enemies.length; i++){
+		enemies[i].pos[0] -= dt * enemySpeed;
+		enemies[i].sprite.update(dt);
+
+		// Remove if offscreen
+		if (enemies[i].pos[0] + enemies[i].sprite.size[0] < 0){
+			enemies.splice(i, 1);
+			i--;
+		}
+
+	}
+
+	// Update explosions
+	
 }
 

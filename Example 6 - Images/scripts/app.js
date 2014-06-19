@@ -175,3 +175,51 @@ function updateEntities (dt){
 		}
 	}
 }
+
+// checkCollisions
+function collides (x, y, r, b, x2, y2, r2, b2){
+	return !(r <= x2 || x > r2 || b <= y2 || y > b2);
+}
+
+function boxCollides (pos, size, pos2, size2){
+	return collides (pos[0], pos[1], pos[0] + size[0], pos[1] + size[1], 
+		pos2[0], pos2[1], pos2[0] + size2[0], pos2[1] + size2[1]);
+}
+
+function checkCollisions(){
+	checkPlayerBounds();
+
+	// Collision detection for all players and bullets 
+	for (var i=0; i < enemies.length; i++){
+		var pos = enemies[i].pos;
+		var size = enemies[i].sprite.size;
+
+		for (var j=0; j < bullets.length; j++){
+			var pos2 = bullets[j].pos;
+			var size2 = bullets[j].sprite.size;
+
+			if (boxCollides(pos,size,pos2,size2)){
+				// Remove enemy
+				enemies.splice(i, 1);
+				i--;
+
+				//Add score
+				score += 100;
+
+				//Add explosion
+				explosion.push({
+
+					pos: pos,
+					sprite: new Sprite(resources.get("assets/tilesheet.png"), [84,168], [84, 84], 16, [1, 2, 3], null, true);
+
+				});
+
+				// Remove the bullet and stop itteration
+				bullets.splice(j, 1);
+				break;
+			}
+		}
+
+	}
+}
+

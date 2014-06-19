@@ -165,6 +165,13 @@ function updateEntities (dt){
 	}
 
 	// Update explosions
-	
-}
+	for (var i = 0; i < explosions.length; i++){
+		explosions[i].sprite.update(dt);
 
+		// Remove if animation is over
+		if (explosions[i].sprite.done){
+			explosions.splice(i, 1);
+			i--;
+		}
+	}
+}

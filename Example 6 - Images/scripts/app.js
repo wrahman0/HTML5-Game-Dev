@@ -220,6 +220,30 @@ function checkCollisions(){
 			}
 		}
 
+		if (boxCollides(pos, size, player.pos, player.sprite.size)){
+			gameOver();
+		}
 	}
 }
+
+
+function checkPlayerBounds(){
+	
+	if (player.pos[0] < 0){
+		player.pos[0] = 0;
+	}
+	else if (player.pos[0] > canvas.width - player.sprite.size[0]){
+		player.pos[0] = canvas.width - player.sprite.size[0];
+	}
+
+	if (player.pos[1] < 0){
+		player.pos[1] = 0;
+	}
+	else if (player.pos[1] > canvas.height - player.sprite.size[1]){
+		player.pos[1] = canvas.height - player.sprite.size[1];
+	}
+}
+
+
+
 
